@@ -1,4 +1,4 @@
-## Why This Dataset is Better?
+## Why Does This Dataset is Better?
 
 1. It really use UTF-8
 2. It uses meaningless and uniform IDs
@@ -23,24 +23,6 @@ function(doc, meta) {
     break;
   }
 }
-```
-
-### by_key_value
-
-Map
-
-```javascript
-function (doc, meta) {
-  for (var k in doc) {
-    emit([k, String(doc[k])], 1);
-  }
-}
-```
-
-Reduce
-
-```javascript
-_count
 ```
 
 ### by_location

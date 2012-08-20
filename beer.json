@@ -2,10 +2,6 @@
   "_id": "_design/beer",
   "language": "javascript",
   "views": {
-    "by_key_value": {
-      "map": "function (doc, meta) {\n  for (var k in doc) {\n    emit([k, String(doc[k])], 1);\n  }\n}",
-      "reduce": "_count"
-    },
     "brewery_beers": {
       "map": "function(doc, meta) {\n  switch(doc.type) {\n  case \"brewery\":\n    emit([meta.id]);\n    break;\n  case \"beer\":\n    emit([doc.brewery_id, meta.id]);\n    break;\n  }\n}"
     },
