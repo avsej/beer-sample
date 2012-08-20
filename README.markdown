@@ -58,3 +58,8 @@ function(doc, meta) {
   }
 }
 ```
+
+## Recreate the dataset
+
+The `export.rb` script lives in `script` directory. See instructions in
+the file header.
