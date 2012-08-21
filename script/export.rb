@@ -100,7 +100,6 @@ Beer.includes([:style, :category]).each do |item|
   doc["style"] = item.style.style_name if item.style
   doc["category"] = item.category.cat_name if item.category
   id = uuid.next[22..-1]
-  mapping[item.id] = id
   File.open("out/beers/#{id}.json", "w") do |f|
     f.write(Yajl::Encoder.encode(doc))
   end
