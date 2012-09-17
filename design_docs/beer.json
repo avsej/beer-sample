@@ -9,8 +9,5 @@
       "map": "function (doc, meta) {\n  if (doc.country, doc.state, doc.city) {\n    emit([doc.country, doc.state, doc.city], 1);\n  } else if (doc.country, doc.state) {\n    emit([doc.country, doc.state], 1);\n  } else if (doc.country) {\n    emit([doc.country], 1);\n  }\n}",
       "reduce": "_count"
     }
-  },
-  "spatial": {
-    "points": "function(doc, meta) {\n  if (doc.geo) {\n    emit({type: \"Point\", coordinates: [doc.geo.lng, doc.geo.lat]}, [meta.id, doc.geo]);\n  }\n}"
   }
 }
