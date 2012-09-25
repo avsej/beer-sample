@@ -7,14 +7,14 @@ require 'active_support/all' # for String#parameterize
 # make id in form "prefix.lowercased_name"
 #
 # Example:
-#  fixup("brewery", "Borsodi Sörgyár")
-#  => brewery.borsodi_sorgyar
+#  fixup("Borsodi Sörgyár")
+#  => borsodi_sorgyar
 #
-def fixup(prefix, name)
+def fixup(*names)
   # 1) replace accented chars with their ascii equivalents and apply Unicode
   #    normalizarion
   # 2) turn unwanted chars into the separator (non alphanumeric, _ and -
-  "#{prefix}.#{name.parameterize.gsub("-", "_")}"
+  names.map{|name| name.parameterize.gsub("-", "_")}.join("-")
 end
 
 mapping = {}
@@ -23,7 +23,7 @@ File.open("brewery-rename.log", "w") do |log|
   Dir["#{datadir}/breweries/*.json"].each do |file|
     id = file[%r{/([^/]*)\.json$}, 1]
     item = Yajl::Parser.parse(File.read(file))
-    mapping[id] = new_id = fixup("brewery", item["name"])
+    mapping[id] = new_id = fixup(item["name"])
 
     log.puts "#{id} => #{new_id} (#{item["name"]})"
     File.open("#{datadir}/breweries/#{new_id}.json", "w") do |out|
@@ -38,10 +38,10 @@ File.open("beer-rename.log", "w") do |log|
     id = file[%r{/([^/]*)\.json$}, 1]
     item = Yajl::Parser.parse(File.read(file))
     item["brewery_id"] = mapping[item["brewery_id"]]
-    new_id = fixup("beer", item["name"])
+    new_id = fixup(item["brewery_id"], item["name"])
 
     log.puts "#{id} => #{new_id} (#{item["name"]})"
-    File.open("#{datadir}/breweries/#{new_id}.json", "w") do |out|
+    File.open("#{datadir}/beers/#{new_id}.json", "w") do |out|
       out.write(Yajl::Encoder.encode(item))
     end
     File.unlink(file)
